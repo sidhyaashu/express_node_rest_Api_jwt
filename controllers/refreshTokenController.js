@@ -9,7 +9,6 @@ require('dotenv').config()
 const handRefressToken =  (req,res)=>{
     const cookies = req.cookies
     if(!cookies?.jwt) return res.sendStatus(401)
-    console.log(cookies.jwt)
     const refressToken = cookies.jwt
 
     const foundUser = userDB.users.find(person=>person.refressToken === refressToken)

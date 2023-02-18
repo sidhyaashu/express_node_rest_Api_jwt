@@ -8,12 +8,13 @@ const errorHandler = require('./middleware/errorHandler');
 const veriFyJWT = require('./middleware/veriFy.js')
 const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 3500;
-
+const credentials = require('./middleware/credentials.js')
 // custom middleware logger
 app.use(logger);
 
 
-
+//add fetch cookie credintels requirment
+app.use(credentials)
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
 
@@ -37,6 +38,7 @@ app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register.js'));
 app.use('/auth', require('./routes/auth.js'));
 app.use('/refresh', require('./routes/refresh.js'));
+app.use('/logout', require('./routes/logOut.js'));
 
 
 
