@@ -11,13 +11,13 @@ const handleLogout = async (req,res)=>{
     //on client also delete the token
 
     const cookies = req.cookies
-    if(!cookies?.jwt) return res.sendStatus(204)
+    if(!cookies?.jwt) return res.sendStatus(204) //no content
     const refressToken = cookies.jwt
 
     // is refresh token in db
     const foundUser = userDB.users.find(person=>person.refressToken === refressToken)
     if(!foundUser) {
-        res.clearCookie('jwt',{httpOnly:true,maxAge:24*60*60*1000})
+        res.clearCookie('jwt',{httpOnly:true,sameSite:'None',secure:true})
         return res.sendStatus(204)
     } //forbidden
 
@@ -31,7 +31,7 @@ const handleLogout = async (req,res)=>{
         JSON.stringify(userDB.users)
     )
 
-    res.clearCookie('jwt',{httpOnly:true,maxAge:24*60*60*1000,secure:true}) // secure:true -only serve on https
+    res.clearCookie('jwt',{httpOnly:true,sameSite:'None',secure:true}) // secure:true -only serve on https
     res.sendStatus(204)
        
 }
