@@ -4,7 +4,6 @@ const userDB ={
 }
 
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
 
 const handRefressToken =  (req,res)=>{
     const cookies = req.cookies

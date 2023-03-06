@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -9,6 +10,13 @@ const veriFyJWT = require('./middleware/veriFy.js')
 const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 3500;
 const credentials = require('./middleware/credentials.js')
+const mongoose = require('mongoose')
+const connectDB = require('./configOptions/dbConn.js')
+
+//Connect to DB
+connectDB()
+
+
 // custom middleware logger
 app.use(logger);
 
@@ -58,6 +66,8 @@ app.all('*', (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+mongoose.connection.once('open',()=>{
+    console.log('Connected')
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+})
 
-//40:04
