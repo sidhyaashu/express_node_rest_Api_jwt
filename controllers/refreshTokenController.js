@@ -1,21 +1,21 @@
-const userDB ={
-    users:require('../model/user.json'),
-    setUser:function(data){this.users = data}
-}
-
+const User = require('../model/UserM.js')
 const jwt = require('jsonwebtoken')
 
-const handRefressToken =  (req,res)=>{
+const handRefressToken = async (req,res)=>{
     const cookies = req.cookies
+    // console.log('coocke--->',cookies)
     if(!cookies?.jwt) return res.sendStatus(401)
-    const refressToken = cookies.jwt
+    const refreshToken = cookies.jwt
+    // console.log('refreshToken--->',refressToken)
 
-    const foundUser = userDB.users.find(person=>person.refressToken === refressToken)
-    if(!foundUser) return res.sendStatus(403) //forbidden
+
+    const foundUser = await User.findOne({refreshToken}).exec()
+    console.log('foundUser---->',foundUser)
+    if(!foundUser) return res.status(409).json({message:"User Not found problem in refreshToken match",foundUser}) //forbidden
 
     //evaluate jwt
     jwt.verify(
-        refressToken,
+        refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         (err,decoded)=>{
             if(err || foundUser.username !== decoded.username) return res.sendStatus(403)
@@ -26,7 +26,7 @@ const handRefressToken =  (req,res)=>{
                     {"username":decoded.username,"roles":roles}
                 },
                 process.env.ACCES_TOKEN_SECRET,
-                { expiresIn:'30s' }
+                { expiresIn:'59s' }
             )
             res.json({accessToken})
         }

@@ -64,6 +64,10 @@ app.all('*', (req, res) => {
     }
 });
 
+// app.get('/lala',(req,res)=>{
+//     res.json({message:"Hi i am from server"})
+// })
+
 app.use(errorHandler);
 
 mongoose.connection.once('open',()=>{
