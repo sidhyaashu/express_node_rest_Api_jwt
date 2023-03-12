@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken')
 
 
 const handleLogin = async (req,res)=>{
+
+    const cookies = req.cookies
+
     const {user,pwd} = req.body
     if(!user||!pwd) return res.status(400).json({"message":"username and password required"})
     const foundUser = await User.findOne({username:user}).exec()
@@ -21,19 +24,26 @@ const handleLogin = async (req,res)=>{
             process.env.ACCES_TOKEN_SECRET,
             {expiresIn:'60s'}
         )
-        const refreshToken = jwt.sign(
+        const newRefreshToken = jwt.sign(
             {"username":foundUser.username},
             process.env.REFRESH_TOKEN_SECRET,
             {expiresIn:'1d'}
         )
 
+        const newRefreshTokenArray = 
+                !cookies?.jwt
+                    ?foundUser.refreshToken
+                    :foundUser.refreshToken.filter(rt=>rt !== cookies.jwt)
+        
+
+        if(cookies?.jwt) res.clearCookie('jwt',{httpOnly:true,sameSite:'None',secure:true})
 
         //saving refresh token 
-        foundUser.refreshToken = refreshToken
+        foundUser.refreshToken = [...newRefreshTokenArray,newRefreshToken]
         await foundUser.save()
         // console.log('auth added refreshToken ---> ',result)
 
-        res.cookie('jwt',refreshToken,{ httpOnly:true, maxAge:24*60*60*1000, sameSite:'None'}) //,secure:true 
+        res.cookie('jwt',newRefreshToken,{ httpOnly:true, maxAge:24*60*60*1000, sameSite:'None'}) //,secure:true 
         res.json({accessToken})
     }else{
         res.status(400).json({"message":"Invalid credintials"})

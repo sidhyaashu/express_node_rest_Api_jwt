@@ -15,11 +15,11 @@ const handleLogout = async (req,res)=>{
     } //forbidden
 
     //delete token
-    foundUser.refreshToken = ''
-    await foundUser.save()
+    foundUser.refreshToken = foundUser.refreshToken.filter((rt)=>rt !==refreshToken)
+    const result =await foundUser.save()
 
     res.clearCookie('jwt',{httpOnly:true,sameSite:'None'}) //,secure:true secure:true -only serve on https
-    res.status(204).json({message:"Logout"})
+    res.status(204).json({message:"Logout",refreshToken})
        
 }
 

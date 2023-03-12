@@ -57,3 +57,10 @@
 20230313	02:28:14	9683b053-ccbd-4fdf-aca4-1a5fce767659	POST	undefined	/auth/
 20230313	02:28:26	2f31e085-52c7-4961-897f-0fd8b642366c	DELETE	undefined	/employees
 20230313	02:28:52	9a2d2e00-5eb2-4f74-ba19-e936c4b50d3a	DELETE	undefined	/employees
+20230313	03:14:38	97f2c5dc-cb47-4612-9451-70801b83bdda	POST	undefined	/auth/
+20230313	03:14:52	c683013b-87af-4e84-9843-792b058621a9	POST	undefined	/employees
+20230313	03:15:02	390afb7e-b37c-451c-b749-d8798c977505	DELETE	undefined	/employees
+20230313	03:15:32	be8e9908-2468-4c95-aecb-053737623530	DELETE	undefined	/employees
+20230313	03:17:05	288d6889-fc6a-4ce4-8a1a-71049bf5ac40	POST	undefined	/auth/
+20230313	03:17:34	6d99e6c3-227e-430f-b181-9257be6a0738	DELETE	undefined	/employees
+20230313	03:17:37	e1ea2649-f560-42eb-a41c-e72b48e89049	DELETE	undefined	/employees
